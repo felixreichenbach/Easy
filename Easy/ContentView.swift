@@ -9,101 +9,67 @@ import SwiftUI
 import RealmSwift
 
 struct ContentView: View {
-    // Observe the Realm app object in order to react to login state changes.
-    @ObservedObject var app: RealmSwift.App
     
-    @State var realm: Realm?
+    @EnvironmentObject var app: RealmSwift.App
+    
+    @StateObject var viewModel = ViewModel()
     
     var body: some View {
-        // If there is no user logged in, show the login view.
-        guard let user = app.currentUser else {
-            return AnyView(LoginView(app: app))
+        if (app.currentUser != nil) {
+            ItemsView(viewModel: viewModel, realm: viewModel.realm)
+        } else {
+            LoginView(viewModel: viewModel)
         }
-        // If logged in but the realm is not open yet, then show a progress spinner
-        // while opening the realm. Realm.asyncOpen() downloads the remote changes before
-        // the realm opens, which might take a moment.
-        guard let realm = realm else {
-            return AnyView(ProgressView() // Show the activity indicator while the realm loads
-                .onReceive(Realm.asyncOpen(configuration: user.configuration(partitionValue: user.id)).assertNoFailure()) { realm in
-                    // Preload one group if it does not exist. This app only ever allows
-                    // one group per user partition, but you could expand it to allow many groups.
-                    if realm.objects(Item.self).count == 0 {
-                        try! realm.write {
-                            realm.add(Item())
-                        }
-                    }
-                    // Assign the realm to the state property to trigger a view refresh.
-                    self.realm = realm
-                })
-        }
-        // If logged in and the realm has been opened, then go to the items
-        // screen for the only group in the realm.
-        return AnyView(ItemsView(item: realm.objects(Item.self).first!))
-        // Pass the app to descendents via this environment object.
     }
 }
 
 struct LoginView: View {
-    // Observe the Realm app object in order to react to login state changes.
-    @ObservedObject var app: RealmSwift.App
     
-    @State private var error: Error?
-    @State private var username: String = ""
-    @State private var password: String = ""
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         VStack {
         Text("LoginView")
         Form {
-            TextField("Username", text: $username)
-            SecureField("Password", text: $password)
+            TextField("Username", text: $viewModel.username)
+            SecureField("Password", text: $viewModel.password)
+            TextField("Error", text: $viewModel.error)
         }
-        Button("Login", action: login)
-        }
-    }
-    
-    func login() {
-        print("login")
-        app.login(credentials: .anonymous) { result in
-            if case let .failure(error) = result {
-                print("Failed to log in: \(error.localizedDescription)")
-                // Set error to observed property so it can be displayed
-                self.error = error
-                return
-            }
+            Button("Login", action: viewModel.login)
         }
     }
 }
 
 struct ItemsView: View {
     
-    @ObservedRealmObject var item: Item
-    
+    @ObservedObject var viewModel: ViewModel
     @State private var error: Error?
+    
+    var realm: Realm?
     
     var body: some View {
         
         VStack {
+            // The list shows the items in the realm.
+            List {
+                if let items = realm?.objects(Item.self) {
+                    ForEach(items) { item in
+                        Text(item.name)
+                    }
+                } else {
+                    Text("Empty")
+                }
+            }
+            
             Text("ItemView")
-            Button("Logout", action: logout)
-        }
-
-    }
-    
-    func logout() {
-        print("logout")
-        guard let user = app.currentUser else {
-            return
-        }
-        user.logOut() { error in
-            // Other views are observing the app and will detect
-            // that the currentUser has changed. Nothing more to do here.
+            Button("Add Item", action: viewModel.addItem)
+            Button("Logout", action: viewModel.logout)
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(app: App(id: "easy-rmcgl"))
+        ContentView().environmentObject(App(id: "easy-rmcgl"))
     }
 }

@@ -14,7 +14,7 @@ let app: RealmSwift.App = RealmSwift.App(id: "easy-rmcgl")
 struct EasyApp: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
-            ContentView(app: app)
+            ContentView().environmentObject(app)
         }
     }
 }
