@@ -7,8 +7,13 @@
 
 import Foundation
 import RealmSwift
+import Combine
 
 class ViewModel: ObservableObject {
+    
+    
+    //-->> read this https://github.com/realm/task-tracker-swiftui/blob/main/task-tracker-swiftui/AppState.swift
+    // TODO: Notification Block on Realm change
     
     @Published var realm: Realm?
     @Published var username: String = "demo@demo.com"
@@ -16,24 +21,29 @@ class ViewModel: ObservableObject {
     @Published var error: String = ""
     @Published var progressView: Bool = false
     
+    let app: RealmSwift.App = RealmSwift.App(id: "easy-rmcgl")
+    
     init() {
         print("init")
-        if (app.currentUser != nil) {
-            openRealm()
-        }
     }
     
     
     func login() {
         print("userlogin: \(username)")
+        self.progressView = true
         app.login(credentials: Credentials.emailPassword(email: username, password: password)) { result in
             switch result {
             case .success:
                 self.openRealm()
+                DispatchQueue.main.async {
+                    self.error = ""
+                    self.progressView = false
+                }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    print("error")
-                    self.error = "Failed to log in: \(error.localizedDescription)"
+                    print("Failed to log in: \(error.localizedDescription)")
+                    self.error = error.localizedDescription
+                    self.progressView = false
                 }
             }
         }
@@ -42,26 +52,24 @@ class ViewModel: ObservableObject {
     
     func logout() {
         print("logout")
+        self.progressView = true
         app.currentUser?.logOut() { result in
         }
+        self.progressView = false
     }
     
     
     func openRealm() {
-        // If there is no user logged in, show the login view.
+        // If there is no user logged in, exit function.
         guard let user = app.currentUser else {
             return
         }
-        
         Realm.asyncOpen(configuration: user.configuration(partitionValue: user.id)) { result in
             switch result {
-            case .failure(let error):
-                print("Failed to open realm: \(error.localizedDescription)")
-                // handle error
             case .success(let realm):
-                print("Successfully opened realm: \(realm)")
-                // Assign the realm to the state property to trigger a view refresh.
                 self.realm = realm
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
             }
         }
     }
@@ -72,9 +80,6 @@ class ViewModel: ObservableObject {
         try! realm?.write {
             realm?.add(Item())
         }
-        /*
-        DispatchQueue.main.async {
-            self.error = "trigger"
-        }*/
+        objectWillChange.send()
     }
 }

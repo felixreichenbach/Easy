@@ -8,13 +8,11 @@
 import SwiftUI
 import RealmSwift
 
-let app: RealmSwift.App = RealmSwift.App(id: "easy-rmcgl")
-
 @main
 struct EasyApp: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(app)
+            ContentView()
         }
     }
 }

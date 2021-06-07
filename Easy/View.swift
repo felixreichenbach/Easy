@@ -10,45 +10,45 @@ import RealmSwift
 
 struct ContentView: View {
     
-    @EnvironmentObject var app: RealmSwift.App
-    
     @StateObject var viewModel = ViewModel()
     
     var body: some View {
-        if (app.currentUser != nil) {
-            ItemsView(viewModel: viewModel, realm: viewModel.realm)
-        } else {
-            LoginView(viewModel: viewModel)
+        ZStack {
+            if (viewModel.app.currentUser != nil) {
+                ItemsView(viewModel: viewModel, realm: viewModel.realm)
+            } else {
+                LoginView(viewModel: viewModel)
+            }
+            if viewModel.progressView {
+                ProgressView()
+                    .scaleEffect(2)
+            }
         }
     }
 }
 
 struct LoginView: View {
-    
     @ObservedObject var viewModel: ViewModel
-    
     var body: some View {
         VStack {
-        Text("LoginView")
-        Form {
-            TextField("Username", text: $viewModel.username)
-            SecureField("Password", text: $viewModel.password)
-            TextField("Error", text: $viewModel.error)
-        }
+            Text("LoginView")
+            Form {
+                TextField("Username", text: $viewModel.username)
+                SecureField("Password", text: $viewModel.password)
+            }
+            Text(viewModel.error)
+                .foregroundColor(.red)
             Button("Login", action: viewModel.login)
+
         }
     }
 }
 
 struct ItemsView: View {
-    
     @ObservedObject var viewModel: ViewModel
     @State private var error: Error?
-    
     var realm: Realm?
-    
     var body: some View {
-        
         VStack {
             // The list shows the items in the realm.
             List {
@@ -60,7 +60,6 @@ struct ItemsView: View {
                     Text("Empty")
                 }
             }
-            
             Text("ItemView")
             Button("Add Item", action: viewModel.addItem)
             Button("Logout", action: viewModel.logout)
@@ -70,6 +69,6 @@ struct ItemsView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(App(id: "easy-rmcgl"))
+        ContentView()
     }
 }
