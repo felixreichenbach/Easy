@@ -22,6 +22,7 @@ class ViewModel: ObservableObject {
     @Published var progressView: Bool = false
     
     let app: RealmSwift.App = RealmSwift.App(id: "easy-rmcgl")
+    var notificationToken: NotificationToken?
     
     init() {
         print("init")
@@ -53,6 +54,7 @@ class ViewModel: ObservableObject {
     func logout() {
         print("logout")
         self.progressView = true
+        self.notificationToken?.invalidate()
         app.currentUser?.logOut() { result in
         }
         self.progressView = false
@@ -68,6 +70,11 @@ class ViewModel: ObservableObject {
             switch result {
             case .success(let realm):
                 self.realm = realm
+                self.notificationToken = realm.observe { notification, realm in
+                    print("Notification")
+                    self.objectWillChange.send()
+                }
+
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
             }
@@ -77,7 +84,7 @@ class ViewModel: ObservableObject {
     
     func addItem() {
         print("addItem")
-        try! realm?.write {
+        try! realm?.write(withoutNotifying: [notificationToken!]){
             realm?.add(Item())
         }
         objectWillChange.send()
