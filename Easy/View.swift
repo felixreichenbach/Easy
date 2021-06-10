@@ -52,8 +52,8 @@ struct ItemsView: View {
         VStack {
             // The list shows the items in the realm.
             List {
-                if let items = realm?.objects(Item.self) {
-                    ForEach(items) { item in
+                if let items = realm?.objects(Item.self).sorted(byKeyPath: "_id", ascending: true) {
+                    ForEach(items.freeze()) { item in
                         Text(item.name)
                     }
                 } else {
