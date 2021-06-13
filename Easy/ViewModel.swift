@@ -11,10 +11,6 @@ import Combine
 
 class ViewModel: ObservableObject {
     
-    
-    //-->> read this https://github.com/realm/task-tracker-swiftui/blob/main/task-tracker-swiftui/AppState.swift
-    // TODO: Notification Block on Realm change
-    
     @Published var realm: Realm?
     @Published var username: String = "demo@demo.com"
     @Published var password: String = "demo123"
@@ -76,7 +72,7 @@ class ViewModel: ObservableObject {
                     print("Notification")
                     self.objectWillChange.send()
                 }
-
+                
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
             }

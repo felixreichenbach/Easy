@@ -12,7 +12,7 @@ struct ItemsView: View {
     @ObservedObject var viewModel: ViewModel
     @State private var error: Error?
     @State private var showingAddItem = false
-
+    
     var body: some View {
         VStack {
             // The list shows the items in the realm.
@@ -48,7 +48,7 @@ struct ItemsView: View {
 struct AddView: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var isPresented: Bool
-
+    
     var body: some View {
         VStack {
             HStack(alignment: .center) {
