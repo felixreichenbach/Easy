@@ -26,6 +26,7 @@ class ViewModel: ObservableObject {
     
     init() {
         print("init")
+        openRealm()
     }
     
     

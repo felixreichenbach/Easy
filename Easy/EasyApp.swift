@@ -8,11 +8,19 @@
 import SwiftUI
 import RealmSwift
 
+// SwiftUI App Lifecycle
+// https://learnappmaking.com/swiftui-app-lifecycle-how-to/
+
 @main
 struct EasyApp: SwiftUI.App {
+    @Environment(\.scenePhase) private var scenePhase
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+        }
+        .onChange(of: scenePhase) { phase in
+            print(phase)
         }
     }
 }
