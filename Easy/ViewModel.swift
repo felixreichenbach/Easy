@@ -91,4 +91,11 @@ class ViewModel: ObservableObject {
         }
         objectWillChange.send()
     }
+    
+    func deleteItem(at offsets: IndexSet) {
+        print("delete")
+        try! realm?.write(withoutNotifying: [notificationToken!]) {
+            realm?.delete(realm!.objects(Item.self)[offsets.first!])
+        }
+    }
 }

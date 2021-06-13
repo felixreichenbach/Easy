@@ -21,6 +21,7 @@ struct ItemsView: View {
                     ForEach(items.freeze()) { item in
                         Text(item.name)
                     }
+                    .onDelete(perform: delete)
                 } else {
                     Text("Empty")
                 }
@@ -36,6 +37,10 @@ struct ItemsView: View {
             // show the add item view
             AddView(viewModel: viewModel, isPresented: $showingAddItem)
         }
+    }
+    
+    func delete(at offsets: IndexSet) {
+        viewModel.deleteItem(at: offsets)
     }
 }
 
