@@ -11,12 +11,14 @@ import Combine
 
 class ViewModel: ObservableObject {
     
-    @Published var realm: Realm?
+    //@Published var realm: Realm?
     @Published var username: String = "demo@demo.com"
     @Published var password: String = "demo123"
     @Published var error: String = ""
     @Published var itemName: String = ""
     @Published var progressView: Bool = false
+    
+    @Published var items: RealmSwift.Results<Item>?
     
     let app: RealmSwift.App = RealmSwift.App(id: "easy-rmcgl")
     var notificationToken: NotificationToken?
@@ -67,7 +69,8 @@ class ViewModel: ObservableObject {
         Realm.asyncOpen(configuration: user.configuration(partitionValue: user.id)) { result in
             switch result {
             case .success(let realm):
-                self.realm = realm
+                //self.realm = realm
+                self.items = realm.objects(Item.self).sorted(byKeyPath: "_id", ascending: true)
                 self.notificationToken = realm.observe { notification, realm in
                     print("Notification")
                     self.objectWillChange.send()
@@ -82,16 +85,21 @@ class ViewModel: ObservableObject {
     
     func addItem() {
         print("addItem")
-        try! realm?.write(withoutNotifying: [notificationToken!]){
-            realm?.add(Item(name: itemName))
+        try! items?.realm?.write(withoutNotifying: [notificationToken!]){
+            items?.realm!.add(Item(name: itemName))
         }
         objectWillChange.send()
     }
     
     func deleteItem(at offsets: IndexSet) {
         print("delete")
-        try! realm?.write(withoutNotifying: [notificationToken!]) {
-            realm?.delete(realm!.objects(Item.self)[offsets.first!])
+        
+        /*guard let realm = self.realm else {
+            print("Delete Failed")
+            return
+        }*/
+        try! items?.realm?.write(withoutNotifying: [notificationToken!]){
+            items?.realm!.delete(items![offsets.first!])
         }
     }
 }

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import RealmSwift
 
 // SwiftUI App Lifecycle
 // https://learnappmaking.com/swiftui-app-lifecycle-how-to/

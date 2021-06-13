@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import RealmSwift
 
 struct ItemsView: View {
     @ObservedObject var viewModel: ViewModel
@@ -17,7 +16,7 @@ struct ItemsView: View {
         VStack {
             // The list shows the items in the realm.
             List {
-                if let items = viewModel.realm?.objects(Item.self).sorted(byKeyPath: "_id", ascending: true) {
+                if let items = viewModel.items { //realm?.objects(Item.self).sorted(byKeyPath: "_id", ascending: true) {
                     ForEach(items.freeze()) { item in
                         Text(item.name)
                     }
