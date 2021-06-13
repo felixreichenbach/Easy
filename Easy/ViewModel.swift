@@ -19,6 +19,7 @@ class ViewModel: ObservableObject {
     @Published var username: String = "demo@demo.com"
     @Published var password: String = "demo123"
     @Published var error: String = ""
+    @Published var itemName: String = ""
     @Published var progressView: Bool = false
     
     let app: RealmSwift.App = RealmSwift.App(id: "easy-rmcgl")
@@ -86,7 +87,7 @@ class ViewModel: ObservableObject {
     func addItem() {
         print("addItem")
         try! realm?.write(withoutNotifying: [notificationToken!]){
-            realm?.add(Item())
+            realm?.add(Item(name: itemName))
         }
         objectWillChange.send()
     }

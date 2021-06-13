@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		631657E22675F6B300D397C5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631657E12675F6B300D397C5 /* LoginView.swift */; };
+		631657E42675F70B00D397C5 /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631657E32675F70B00D397C5 /* ItemsView.swift */; };
 		632054B8266ABF72008DFC61 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632054B7266ABF72008DFC61 /* ViewModel.swift */; };
 		63C9ABBC266948D200069D38 /* EasyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C9ABBB266948D200069D38 /* EasyApp.swift */; };
-		63C9ABBE266948D200069D38 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C9ABBD266948D200069D38 /* View.swift */; };
+		63C9ABBE266948D200069D38 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C9ABBD266948D200069D38 /* ContentView.swift */; };
 		63C9ABC0266948D300069D38 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63C9ABBF266948D300069D38 /* Assets.xcassets */; };
 		63C9ABC3266948D300069D38 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63C9ABC2266948D300069D38 /* Preview Assets.xcassets */; };
 		63C9ABCC26694D1400069D38 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 63C9ABCB26694D1400069D38 /* Realm */; };
@@ -18,10 +20,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		631657E12675F6B300D397C5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		631657E32675F70B00D397C5 /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
 		632054B7266ABF72008DFC61 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		63C9ABB8266948D200069D38 /* Easy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Easy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C9ABBB266948D200069D38 /* EasyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyApp.swift; sourceTree = "<group>"; };
-		63C9ABBD266948D200069D38 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		63C9ABBD266948D200069D38 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		63C9ABBF266948D300069D38 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63C9ABC2266948D300069D38 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		63C9ABC4266948D300069D38 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -61,7 +65,9 @@
 			isa = PBXGroup;
 			children = (
 				63C9ABBB266948D200069D38 /* EasyApp.swift */,
-				63C9ABBD266948D200069D38 /* View.swift */,
+				63C9ABBD266948D200069D38 /* ContentView.swift */,
+				631657E12675F6B300D397C5 /* LoginView.swift */,
+				631657E32675F70B00D397C5 /* ItemsView.swift */,
 				632054B7266ABF72008DFC61 /* ViewModel.swift */,
 				63C9ABCF266967E100069D38 /* Model.swift */,
 				63C9ABBF266948D300069D38 /* Assets.xcassets */,
@@ -155,9 +161,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63C9ABBE266948D200069D38 /* View.swift in Sources */,
+				63C9ABBE266948D200069D38 /* ContentView.swift in Sources */,
+				631657E42675F70B00D397C5 /* ItemsView.swift in Sources */,
 				63C9ABBC266948D200069D38 /* EasyApp.swift in Sources */,
 				632054B8266ABF72008DFC61 /* ViewModel.swift in Sources */,
+				631657E22675F6B300D397C5 /* LoginView.swift in Sources */,
 				63C9ABD0266967E100069D38 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

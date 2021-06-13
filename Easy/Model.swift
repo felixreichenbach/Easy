@@ -17,4 +17,9 @@ final class Item: Object, ObjectKeyIdentifiable {
     override class func primaryKey() -> String? {
         "_id"
     }
+    
+    convenience init(name: String) {
+        self.init()
+        self.name = name
+    }
 }
