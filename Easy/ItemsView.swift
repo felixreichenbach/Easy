@@ -9,37 +9,39 @@ import SwiftUI
 
 struct ItemsView: View {
     @ObservedObject var viewModel: ViewModel
-    @State private var error: Error?
     @State private var showingAddItem = false
     
     var body: some View {
         VStack {
-            // The list shows the items in the realm.
-            List {
-                if let items = viewModel.items { //realm?.objects(Item.self).sorted(byKeyPath: "_id", ascending: true) {
-                    ForEach(items.freeze()) { item in
-                        Text(item.name)
+            NavigationView {
+                // The list shows the items in the realm.
+                List {
+                    if let items = viewModel.items {
+                        ForEach(items.freeze()) { item in
+                            NavigationLink(item.name, destination: detailView(item: item))
+                        }
+                        .onDelete(perform: delete)
                     }
-                    .onDelete(perform: delete)
-                } else {
-                    Text("Empty")
-                }
+                }.navigationBarTitle("Items")
             }
-            if !viewModel.error.isEmpty {
-                Text(viewModel.error)
-                    .foregroundColor(.red)
+            .sheet(isPresented: $showingAddItem) {
+                // show the add item view
+                AddView(viewModel: viewModel, isPresented: $showingAddItem)
             }
             Button("Add Item", action: {showingAddItem = true})
             Button("Logout", action: viewModel.logout)
-        }
-        .sheet(isPresented: $showingAddItem) {
-            // show the add item view
-            AddView(viewModel: viewModel, isPresented: $showingAddItem)
         }
     }
     
     func delete(at offsets: IndexSet) {
         viewModel.deleteItem(at: offsets)
+    }
+}
+
+struct detailView: View {
+    var item:Item
+    var body: some View {
+        Text(item.name)
     }
 }
 
