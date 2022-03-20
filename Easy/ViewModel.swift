@@ -11,16 +11,16 @@ import Combine
 
 class ViewModel: ObservableObject {
     
-    //@Published var realm: Realm?
-    @Published var username: String = "demo@demo.com"
-    @Published var password: String = "demo123"
+    var realm: Realm?
+    @Published var username: String = "demo"
+    @Published var password: String = "demopw"
     @Published var error: String = ""
     @Published var itemName: String = ""
     @Published var progressView: Bool = false
     
     @Published var items: RealmSwift.Results<Item>?
     
-    let app: RealmSwift.App = RealmSwift.App(id: "easy-rmcgl")
+    let app: RealmSwift.App = RealmSwift.App(id: "<-- YOUR REALM APP ID -->")
     var notificationToken: NotificationToken?
     
     init() {
@@ -66,10 +66,18 @@ class ViewModel: ObservableObject {
         guard let user = app.currentUser else {
             return
         }
-        Realm.asyncOpen(configuration: user.configuration(partitionValue: user.id)) { result in
+        print("User custom data: \(user.customData)\(user.id)")
+        Realm.asyncOpen(configuration: user.flexibleSyncConfiguration()) { result in
             switch result {
             case .success(let realm):
-                //self.realm = realm
+                self.realm = realm
+                let subscriptions = realm.subscriptions
+                subscriptions.write {
+                    subscriptions.removeAll()
+                    subscriptions.append(QuerySubscription<Item>(name: "filter") {
+                        $0.owner_id == user.id
+                    })
+                }
                 self.items = realm.objects(Item.self).sorted(byKeyPath: "_id", ascending: true)
                 self.notificationToken = realm.observe { notification, realm in
                     print("Notification")
