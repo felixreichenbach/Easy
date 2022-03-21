@@ -1,0 +1,31 @@
+{
+  "name": "digital-twin",
+  "version": "1.0.0",
+  "description": "A MongoDB Realm digital twin example",
+  "main": "deviceInstance.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felixreichenbach/vehicle-shadow.git"
+  },
+  "keywords": [
+    "MongoDB",
+    "Digital",
+    "Twin",
+    "Realm",
+    "Sync"
+  ],
+  "author": "F. Reichenbach",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felixreichenbach/vehicle-shadow/issues"
+  },
+  "homepage": "https://github.com/felixreichenbach/vehicle-shadow#readme",
+  "dependencies": {
+    "bson": "^4.5.4",
+    "realm": "^10.9.1"
+  },
+  "devDependencies": {}
+}
