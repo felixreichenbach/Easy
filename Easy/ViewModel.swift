@@ -94,7 +94,7 @@ class ViewModel: ObservableObject {
     func addItem() {
         print("addItem")
         try! items?.realm?.write(withoutNotifying: [notificationToken!]){
-            items?.realm!.add(Item(name: itemName))
+            items?.realm!.add(Item(name: itemName, owner_id: "624f4819a133a0b065578a10"))
         }
         objectWillChange.send()
     }
@@ -103,9 +103,9 @@ class ViewModel: ObservableObject {
         print("delete")
         
         /*guard let realm = self.realm else {
-            print("Delete Failed")
-            return
-        }*/
+         print("Delete Failed")
+         return
+         }*/
         try! items?.realm?.write(withoutNotifying: [notificationToken!]){
             items?.realm!.delete(items![offsets.first!])
         }
