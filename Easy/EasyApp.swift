@@ -19,7 +19,7 @@ struct EasyApp: SwiftUI.App {
             ContentView()
         }
         .onChange(of: scenePhase) { phase in
-            print(phase)
+            //print(phase)
         }
     }
 }
