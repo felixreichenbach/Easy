@@ -32,6 +32,7 @@ struct ItemsView: View {
                 }
             }
         }
+        .navigationViewStyle(.stack)
         .sheet(isPresented: $showingAddItem) {
             // show the add item view
             AddView(viewModel: viewModel, isPresented: $showingAddItem)
