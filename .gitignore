@@ -1,4 +1,7 @@
-
+device/pi/node_modules
 device/.DS_Store
 device/node_modules/
 device/mongodb-realm/
+device/pi/node_modules/.bin/mime
+.DS_Store
+device/pi/mongodb-realm/

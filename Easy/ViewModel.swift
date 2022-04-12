@@ -20,7 +20,7 @@ class ViewModel: ObservableObject {
     
     @Published var items: RealmSwift.Results<Item>?
     
-    let app: RealmSwift.App = RealmSwift.App(id: "<-- YOUR REALM APP ID -->")
+    let app: RealmSwift.App = RealmSwift.App(id: "digital-twin-vibjr")
     var notificationToken: NotificationToken?
     
     init() {
@@ -94,7 +94,7 @@ class ViewModel: ObservableObject {
     func addItem() {
         print("addItem")
         try! items?.realm?.write(withoutNotifying: [notificationToken!]){
-            items?.realm!.add(Item(name: itemName, owner_id: "624f4819a133a0b065578a10"))
+            items?.realm!.add(Item(name: itemName, owner_id: "624f4819a133a0b065578a10")) // to be corrected
         }
         objectWillChange.send()
     }

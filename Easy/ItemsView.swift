@@ -18,7 +18,7 @@ struct ItemsView: View {
                 List {
                     if let items = viewModel.items {
                         ForEach(items.freeze()) { item in
-                            NavigationLink(item.name, destination: detailView(item: item))
+                            NavigationLink(item.name ?? "", destination: detailView(item: item))
                         }
                         .onDelete(perform: delete)
                     }
@@ -47,7 +47,7 @@ struct ItemsView: View {
 struct detailView: View {
     var item:Item
     var body: some View {
-        Text(item.name)
+        Text(item.name ?? "")
     }
 }
 
