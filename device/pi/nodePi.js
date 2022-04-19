@@ -8,8 +8,14 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname+'/index.html'));
 });
 
+// REST API insert endpoint
+app.get('/insert', (req, res) => {
+  let result = realmApp.insert();
+  res.send(result);
+})
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Digital-Twin app listening on port ${port}`);
 });
 
 

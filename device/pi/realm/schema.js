@@ -1,6 +1,6 @@
 
-exports.ItemSchema = {
-  name: 'Item',
+exports.DeviceSchema = {
+  name: 'Devices',
   properties: {
     _id: 'objectId',
     name: 'string?',
