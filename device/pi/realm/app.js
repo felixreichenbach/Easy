@@ -12,26 +12,34 @@ let realm;
 // https://www.mongodb.com/developer/article/realm-flexible-sync/
 
 // REST API insert new device function
-exports.insert = function insert() {
+exports.create = function create() {
   let device;
   realm.write(() => {
     device = realm.create(schema.name, {
-      _id: new BSON.ObjectId,
-      name: 'string?',
+      _id: new BSON.ObjectID,
       owner_id: app.currentUser.id,
+      signals: {
+        hello: "world"
+      }
     })
   });
   return device;
 }
 
 // Realm object change listener
-function changeListener(devices, changes) {
+function changedPropertiesListener(object, changes) {
+  console.log("Object: " + JSON.stringify(object));
   console.log("Changes: " + JSON.stringify(changes));
-  console.log("Devices: " + JSON.stringify(devices));
-  changes.newModifications.forEach((index) => {
-    let modifiedDevice = devices[index];
-    console.log("Modifications: " + JSON.stringify(modifiedDevice));
-  })
+}
+
+// Realm collection change listener
+function colChangeListener(objects, changes) {
+  // Handle newly added objects
+  changes.insertions.forEach((index) => {
+    const insertedObject = objects[index];
+    console.log(`New object added: ${insertedObject.name}!`);
+    insertedObject.addListener(changedPropertiesListener);
+  });
 }
 
 // Main function
@@ -66,7 +74,7 @@ async function run() {
       );
     });
     // Add change listener to filtered list of objects
-    realm.objects(schema.name).addListener(changeListener);
+    realm.objects(schema.name).addListener(colChangeListener);
   } catch (error) {
     console.error("Open Realm failed: " + error.message);
   }

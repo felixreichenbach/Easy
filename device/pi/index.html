@@ -21,16 +21,23 @@
     <div class="jumbotron">
       <h1>Digital-Twin "Onboard" UI</h1>
     </div>
-    <button id="insert" type="button" class="btn btn-primary">Insert</button>
+    <button id="create" type="button" class="btn btn-primary">Create</button>
+    <button id="modify" type="button" class="btn btn-primary">Modify</button>
   </div>
 
   <script>
     // Tutorial:
     // https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript
-    $("#insert").click(async function () {
-      const response = await fetch('http://localhost:3000/insert');
+    $("#create").click(async function () {
+      const response = await fetch('http://localhost:3000/create');
       const result = await response.json(); //extract JSON from the http response
       console.log(JSON.stringify(result));
+    });
+
+    $("#modify").click(async function () {
+      //const response = await fetch('http://localhost:3000/modify');
+      //const result = await response.json(); //extract JSON from the http response
+      console.log("Not implemented yet!"); //JSON.stringify(result));
     });
   </script>
 

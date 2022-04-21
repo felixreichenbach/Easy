@@ -1,10 +1,17 @@
+/**
+ * MongoDB Realm Object Model Definition
+ * https://www.mongodb.com/docs/realm/sdk/node/examples/define-a-realm-object-model/
+ */
+
+const BSON = require("bson");
 
 exports.DeviceSchema = {
-  name: 'Devices',
+  name: "Devices",
   properties: {
-    _id: 'objectId',
-    name: 'string?',
-    owner_id: 'string?',
+    _id: { type: "objectId" },
+    name: { type: "string?", default: "Default" },
+    owner_id: "string",
+    signals: "{}"
   },
   primaryKey: '_id',
 };

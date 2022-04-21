@@ -9,8 +9,8 @@ app.get("/", (req, res) => {
 });
 
 // REST API insert endpoint
-app.get('/insert', (req, res) => {
-  let result = realmApp.insert();
+app.get('/create', (req, res) => {
+  let result = realmApp.create();
   res.send(result);
 })
 
