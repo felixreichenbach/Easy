@@ -28,6 +28,7 @@ struct ItemsView: View {
                 // show the add item view
                 AddView(viewModel: viewModel, isPresented: $showingAddItem)
             }
+            .navigationViewStyle(.stack)
             Button("Add Item", action: {showingAddItem = true})
             Button("Logout", action: viewModel.logout)
         }
