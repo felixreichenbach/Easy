@@ -9,7 +9,20 @@ exports.DeviceSchema = {
   name: "Devices",
   properties: {
     _id: { type: "objectId" },
-    name: { type: "string?", default: "Default" },
+    name: { type: "string?", default: "Device" },
+    owner_id: "string",
+    signals: "{}",
+    components: "Components[]"
+  },
+  primaryKey: '_id',
+};
+
+
+exports.ComponentSchema = {
+  name: "Components",
+  properties: {
+    _id: { type: "objectId" },
+    name: { type: "string?", default: "Component" },
     owner_id: "string",
     signals: "{}"
   },

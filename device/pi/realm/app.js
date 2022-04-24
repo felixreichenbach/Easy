@@ -3,27 +3,44 @@ const realmConfig = require("./config");
 const Realm = require("realm");
 const BSON = require("bson");
 
-const schema = realmModel.DeviceSchema;
+const schemaList = [realmModel.DeviceSchema, realmModel.ComponentSchema];
 const app = new Realm.App({ id: realmConfig.appID });
-
 let realm;
 
 // Javascript flexible sync tutorial: 
 // https://www.mongodb.com/developer/article/realm-flexible-sync/
 
 // REST API insert new device function
-exports.create = function create() {
+exports.createDevice = function createDevice() {
   let device;
+  let component;
   realm.write(() => {
-    device = realm.create(schema.name, {
+    device = realm.create(realmModel.DeviceSchema.name, {
       _id: new BSON.ObjectID,
       owner_id: app.currentUser.id,
       signals: {
-        hello: "world"
+        type: "device"
       }
-    })
+    });
   });
-  return device;
+  return { device: device, component: component };
+}
+
+// REST API add component function
+exports.addComponent = function addComponent() {
+  const device = realm.objects(realmModel.DeviceSchema.name)[0];
+  let component;
+  realm.write(() => {
+    component = realm.create(realmModel.ComponentSchema.name, {
+      _id: new BSON.ObjectID,
+      owner_id: app.currentUser.id,
+      signals: {
+        type: "component"
+      }
+    });
+    device.components.push(component);
+  });
+  return { device: device, component: component };
 }
 
 // Realm object change listener
@@ -59,7 +76,7 @@ async function run() {
   // Open the local Realm
   try {
     realm = await Realm.open({
-      schema: [schema],
+      schema: schemaList,
       sync: {
         user: app.currentUser,
         flexible: true,
@@ -69,12 +86,18 @@ async function run() {
     await realm.subscriptions.update((subscriptions) => {
       subscriptions.add(
         realm
-          .objects(schema.name)
-          .filtered("owner_id =" + JSON.stringify(app.currentUser.id), { name: "owner-filter" })
+          .objects(realmModel.DeviceSchema.name)
+          .filtered("owner_id =" + JSON.stringify(app.currentUser.id), { name: "device-filter" })
+      );
+      subscriptions.add(
+        realm
+          .objects(realmModel.ComponentSchema.name)
+          .filtered("owner_id =" + JSON.stringify(app.currentUser.id), { name: "component-filter" })
       );
     });
     // Add change listener to filtered list of objects
-    realm.objects(schema.name).addListener(colChangeListener);
+    realm.objects(realmModel.DeviceSchema.name).addListener(colChangeListener);
+    realm.objects(realmModel.ComponentSchema.name).addListener(colChangeListener);
   } catch (error) {
     console.error("Open Realm failed: " + error.message);
   }

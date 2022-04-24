@@ -19,25 +19,24 @@
 
   <div class="container">
     <div class="jumbotron">
-      <h1>Digital-Twin "Onboard" UI</h1>
+      <h1>Digital-Twin "Onboard UI"</h1>
     </div>
-    <button id="create" type="button" class="btn btn-primary">Create</button>
-    <button id="modify" type="button" class="btn btn-primary">Modify</button>
+    <button id="create_device" type="button" class="btn btn-primary">Create Device</button>
+    <button id="add_component" type="button" class="btn btn-primary">Add Component</button>
   </div>
 
   <script>
-    // Tutorial:
-    // https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript
-    $("#create").click(async function () {
-      const response = await fetch('http://localhost:3000/create');
+
+    $("#create_device").click(async function () {
+      const response = await fetch('http://localhost:3000/create_device');
       const result = await response.json(); //extract JSON from the http response
       console.log(JSON.stringify(result));
     });
 
-    $("#modify").click(async function () {
-      //const response = await fetch('http://localhost:3000/modify');
-      //const result = await response.json(); //extract JSON from the http response
-      console.log("Not implemented yet!"); //JSON.stringify(result));
+    $("#add_component").click(async function () {
+      const response = await fetch('http://localhost:3000/add_component');
+      const result = await response.json(); //extract JSON from the http response
+      console.log(JSON.stringify(result));
     });
   </script>
 
