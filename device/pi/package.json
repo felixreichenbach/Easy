@@ -1,0 +1,15 @@
+{
+  "name": "pi",
+  "version": "0.0.1",
+  "description": "nodejs application for an edge device",
+  "main": "nodePi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "F. Reichenbach",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "realm": "^10.16.0"
+  }
+}

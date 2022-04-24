@@ -32,6 +32,10 @@ struct ItemsView: View {
             Button("Add Item", action: {showingAddItem = true})
             Button("Logout", action: viewModel.logout)
         }
+    .navigationViewStyle(.stack)
+    .sheet(isPresented: $showingAddItem) {
+        // show the add item view
+        AddView(viewModel: viewModel, isPresented: $showingAddItem)
     }
     
     func delete(at offsets: IndexSet) {
