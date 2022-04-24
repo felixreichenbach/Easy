@@ -20,7 +20,7 @@ class ViewModel: ObservableObject {
     
     @Published var items: RealmSwift.Results<Item>?
     
-    let app: RealmSwift.App = RealmSwift.App(id: "digital-twin-vibjr")
+    let app: RealmSwift.App = RealmSwift.App(id: "<--REALM APP ID-->")
     var notificationToken: NotificationToken?
     
     init() {
