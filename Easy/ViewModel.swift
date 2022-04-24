@@ -94,7 +94,7 @@ class ViewModel: ObservableObject {
     func addItem() {
         print("addItem")
         try! items?.realm?.write(withoutNotifying: [notificationToken!]){
-            items?.realm!.add(Item(name: itemName, owner_id: "624f4819a133a0b065578a10")) // to be corrected
+            items?.realm!.add(Item(name: itemName, owner_id: "624f4819a133a0b065578a10"))
         }
         objectWillChange.send()
     }

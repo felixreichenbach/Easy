@@ -12,8 +12,8 @@ struct ItemsView: View {
     @State private var showingAddItem = false
     
     var body: some View {
-        VStack {
-            NavigationView {
+        NavigationView {
+            VStack{
                 // The list shows the items in the realm.
                 List {
                     if let items = viewModel.items {
@@ -22,20 +22,21 @@ struct ItemsView: View {
                         }
                         .onDelete(perform: delete)
                     }
-                }.navigationBarTitle("Items")
+                }
+                Button("Add Item", action: {showingAddItem = true})
             }
-            .sheet(isPresented: $showingAddItem) {
-                // show the add item view
-                AddView(viewModel: viewModel, isPresented: $showingAddItem)
+            .navigationTitle("Items")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Logout", action: viewModel.logout)
+                }
             }
-            .navigationViewStyle(.stack)
-            Button("Add Item", action: {showingAddItem = true})
-            Button("Logout", action: viewModel.logout)
         }
-    .navigationViewStyle(.stack)
-    .sheet(isPresented: $showingAddItem) {
-        // show the add item view
-        AddView(viewModel: viewModel, isPresented: $showingAddItem)
+        .navigationViewStyle(.stack)
+        .sheet(isPresented: $showingAddItem) {
+            // show the add item view
+            AddView(viewModel: viewModel, isPresented: $showingAddItem)
+        }
     }
     
     func delete(at offsets: IndexSet) {
@@ -75,6 +76,11 @@ struct AddView: View {
 
 struct ItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemsView(viewModel: ViewModel())
+        if #available(iOS 15.0, *) {
+            ItemsView(viewModel: ViewModel())
+                .previewInterfaceOrientation(.portrait)
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }
