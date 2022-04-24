@@ -19,9 +19,9 @@ https://www.mongodb.com/docs/realm/sync/configure/enable-sync/#enable-flexible-s
 
 1. Start the nodeJS application in the Easy-MVVM/device/pi directory
 ```node nodePi.js````
-![Start nodeJS application](/images/startDeviceApp.png)
+![Start nodeJS application](/device/pi/images/startDeviceApp.png)
 2. Navigate to the website [http://localhost:3000/](http://localhost:3000/)
-![Onboard UI](/images/accessDeviceWebsite.png)
+![Onboard UI](/device/pi/images/accessDeviceWebsite.png)
 3. Hit the create device button to create a device.
 4. Hit the add component button to create and relate a component to the previosuly created device. Works multiple times but will always add components to the first created device only!
 
