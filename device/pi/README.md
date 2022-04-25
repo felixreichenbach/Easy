@@ -32,3 +32,5 @@ node nodePi.js
 ## Helpful Links
 
 Sense Hat nodejs library: https://www.npmjs.com/package/pi-sense-hat
+
+Pi demo including javascript sense hat access: https://github.com/WekanCompany/mongodb-iot-realm
